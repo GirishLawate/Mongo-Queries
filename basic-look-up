@@ -1,0 +1,23 @@
+  db.Orders.aggregate([
+    {
+      $lookup:{
+        from:"Products",
+        localField:"productId",
+        foreignField:"_id",
+        as:"productName"
+      }
+    },
+    {
+      $unwind:"$productName"
+    },
+    {
+      $project:{
+        _id:0,
+        userId:1,
+        orderId:"_id",
+        status:1,
+        producName:"$productName.name"
+      }
+    }
+  
+  ])
